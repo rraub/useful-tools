@@ -1,6 +1,9 @@
 #!/bin/sh
 # To generate SHA1 checksums of a directory and compare the checksums with the 
-# checksums from the last run of this script. It takes one argument
+# checksums from the last run of this script. 
+#  It takes one optional argument, the directory to checksum
+
+# todo: to not store the file of checksums in the current directory.. 
 
 CUR_EPOC_TIME=$(date -j -f "%a %b %d %T %Z %Y" "`date`" "+%s")
 CHECKSUM_FILENAME="checksums.txt"
@@ -20,7 +23,6 @@ else
   # sha1sum is NOT defined, lets fall back to shasum
   SHA_BIN="shasum"
 fi
-
 
 # if we can read from checksums
 if [ -r $CHECKSUM_FILENAME ]; then
