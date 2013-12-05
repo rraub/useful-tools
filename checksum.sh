@@ -27,11 +27,16 @@ if [ -r $CHECKSUM_FILENAME ]; then
   mv "$CHECKSUM_FILENAME" "$CHECKSUM_FILENAME-$CUR_EPOC_TIME"
 fi
 
-# find the last checksum file to compare against 
-LAST_CHECKSUM_FILE=$(ls -1 "$CHECKSUM_FILENAME"-* | sort -r | head -n 1)
+# find the last checksum file to compare against (while suppressing errors)
+LAST_CHECKSUM_FILE=$(ls -1 "$CHECKSUM_FILENAME"-* 2>/dev/null | sort -r | head -n 1)
 
 # for now assume the current dir
 find $DIR_TO_CHECK -type f -print0  | xargs -0 "$SHA_BIN" > "$CHECKSUM_FILENAME-$CUR_EPOC_TIME"
 
-# do the comparison 
-diff $LAST_CHECKSUM_FILE "$CHECKSUM_FILENAME-$CUR_EPOC_TIME"
+# if this is the first time running this checksum..
+if [ "x$LAST_CHECKSUM_FILE" = "x" ]; then
+  echo " no checksum file found to compare against, this must be the first time you've run this script"
+else
+  # do the comparison 
+  diff $LAST_CHECKSUM_FILE "$CHECKSUM_FILENAME-$CUR_EPOC_TIME"
+fi
