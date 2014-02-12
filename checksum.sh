@@ -5,7 +5,7 @@
 
 # todo: to not store the file of checksums in the current directory.. 
 
-CUR_EPOC_TIME=$(date -j -f "%a %b %d %T %Z %Y" "`date`" "+%s")
+CUR_EPOC_TIME=$(date +%s)
 CHECKSUM_FILENAME="checksums.txt"
 
 # if an argument is provided then we'll use it, otherwise lets use the current directory
